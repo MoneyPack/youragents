@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">YourAgents</title>
+  <desc id="desc">A square black app tile with four rounded agent nodes orbiting a brighter centre node, joined by a thin ring. The mark suggests a team of agents orbiting one workspace.</desc>
+
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="46%" r="62%">
+      <stop offset="0" stop-color="#1D2A4A" />
+      <stop offset="0.62" stop-color="#0C1120" />
+      <stop offset="1" stop-color="#070A12" />
+    </radialGradient>
+    <linearGradient id="core" x1="32%" y1="18%" x2="74%" y2="86%">
+      <stop offset="0" stop-color="#8FD8FF" />
+      <stop offset="0.52" stop-color="#5B8CFF" />
+      <stop offset="1" stop-color="#3B5BDB" />
+    </linearGradient>
+    <linearGradient id="ring" x1="12%" y1="8%" x2="88%" y2="96%">
+      <stop offset="0" stop-color="#9BE7FF" stop-opacity="0.85" />
+      <stop offset="0.55" stop-color="#5B8CFF" stop-opacity="0.5" />
+      <stop offset="1" stop-color="#7C5CFF" stop-opacity="0.25" />
+    </linearGradient>
+    <clipPath id="tile"><rect width="1024" height="1024" rx="230.4" /></clipPath>
+  </defs>
+
+  <g clip-path="url(#tile)">
+    <rect width="1024" height="1024" fill="url(#halo)" />
+    <circle cx="512" cy="512" r="392" fill="none" stroke="url(#ring)" stroke-width="9" stroke-dasharray="7 26" stroke-linecap="round" opacity="0.9" />
+    <circle cx="512" cy="512" r="286" fill="none" stroke="url(#ring)" stroke-width="5" opacity="0.35" />
+
+    <!-- spokes run from each satellite to the core -->
+    <g stroke="#6F9CFF" stroke-width="13" stroke-linecap="round" opacity="0.55">
+      <line x1="512" y1="120" x2="512" y2="404" />
+      <line x1="904" y1="512" x2="620" y2="512" />
+      <line x1="512" y1="904" x2="512" y2="620" />
+      <line x1="120" y1="512" x2="404" y2="512" />
+    </g>
+
+    <!-- core -->
+    <circle cx="512" cy="512" r="116" fill="url(#core)" />
+    <circle cx="474" cy="472" r="34" fill="#FFFFFF" opacity="0.28" />
+
+    <!-- satellites -->
+    <g fill="#0B1526" stroke="url(#core)" stroke-width="17">
+      <circle cx="512" cy="120" r="70" />
+      <circle cx="904" cy="512" r="70" />
+      <circle cx="512" cy="904" r="70" />
+      <circle cx="120" cy="512" r="70" />
+    </g>
+    <g fill="#8FD8FF">
+      <circle cx="512" cy="120" r="18" />
+      <circle cx="904" cy="512" r="18" />
+      <circle cx="512" cy="904" r="18" />
+      <circle cx="120" cy="512" r="18" />
+    </g>
+  </g>
+</svg>
