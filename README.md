@@ -11,10 +11,6 @@
 ![License](https://img.shields.io/badge/license-Apache%202.0-1084fe)
 ![PRs](https://img.shields.io/badge/PRs-welcome-38d591)
 
-> ⚠️ **No affiliation with any cryptocurrency.** YourAgents has no token. Any coin using the YourAgents, Maus, or YourAgents name is not created, endorsed, or affiliated with this project or its maintainer. I have received no tokens, payment, or allocation from anyone, and I will not be endorsing any token.
-
-## Why
-
 One assistant in one box is the wrong shape for agents. YourAgents is an independent, open-source project inspired by **Grok Bot** —
 it keeps the idea (AI as a *messaging app*: a roster of bots you chat with, each with its own personality,
 memory of its thread, model, computer, and apps) and rebuilds it open, local-first, and on the agents you
