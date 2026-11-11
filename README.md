@@ -11,18 +11,6 @@
 ![License](https://img.shields.io/badge/license-Apache%202.0-1084fe)
 ![PRs](https://img.shields.io/badge/PRs-welcome-38d591)
 
-</div>
-
----
-
-> **Provenance.** YourAgents is an independent, modified distribution of
-> [OpenMausBot](https://github.com/milind-soni/OpenMausBot), which is licensed under the
-> Apache License 2.0. This fork renames the product, restyles the app, and removes the
-> source-available enterprise layer. It is not affiliated with, endorsed by, or maintained by
-> the OpenMausBot project or Supamaus Software Private Limited. The upstream copyright and
-> third-party notices are preserved in [NOTICE](NOTICE); the full license text is in
-> [LICENSE](LICENSE). If you are looking for the original project, use the link above.
-
 > ⚠️ **No affiliation with any cryptocurrency.** YourAgents has no token. Any coin using the YourAgents, Maus, or YourAgents name is not created, endorsed, or affiliated with this project or its maintainer. I have received no tokens, payment, or allocation from anyone, and I will not be endorsing any token.
 
 ## Why
