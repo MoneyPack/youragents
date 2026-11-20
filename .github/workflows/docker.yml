@@ -31,10 +31,10 @@ permissions:
 jobs:
   build-and-smoke:
     name: build image + boot smoke
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - name: Build image
         run: docker build -t youragents:ci .
       - name: Boot the container and prove the server + UI answer
@@ -477,10 +477,10 @@ jobs:
     # Raspberry Pi 4/5 and ARM servers pull the arm64 image; GitHub's ARM
     # runner builds it natively and proves the server, the UI, the Data
     # engine's native tree and the bots' Chromium all work on it.
-    runs-on: ubuntu-24.04-arm
+    runs-on: blacksmith-4vcpu-ubuntu-2404-arm
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - name: Build image
         run: docker build -t youragents:arm64 .
       - name: Boot the container; prove the server, UI, DuckDB and browser work on arm64
@@ -506,15 +506,16 @@ jobs:
     # Release dispatches on its published tag because GITHUB_TOKEN-created
     # tags do not start another workflow. A manual branch run is smoke-only.
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && startsWith(github.ref, 'refs/tags/v'))
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     permissions:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       # The server image is published for linux/amd64 and linux/arm64.
       - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
-      - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+      - name: Setup Blacksmith Builder
+        uses: useblacksmith/setup-docker-builder@v1
       - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
@@ -551,7 +552,7 @@ jobs:
             engines="$engines $package@$version"
           done
           { echo "chrome=$chrome"; echo "chromium=$chromium"; echo "engines=${engines# }"; echo "engines_tag=$engines_tag"; } | tee -a "$GITHUB_OUTPUT"
-      - uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+      - uses: useblacksmith/build-push-action@v2 # v7.3.0
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -561,8 +562,6 @@ jobs:
           build-args: |
             CHROME_CACHE_TAG=${{ steps.keys.outputs.chrome }}
             CHROMIUM_CACHE_TAG=${{ steps.keys.outputs.chromium }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
       # The Cloud Pro home machine (the Dockerfile's cloud-home target), on the
       # same runtime layers as the server image just pushed, with Claude Code,
       # Codex and Grok baked in. The Admin pins it by digest
@@ -579,7 +578,7 @@ jobs:
             type=sha,format=long
             type=ref,event=tag
       - id: home
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+        uses: useblacksmith/build-push-action@v2 # v7.3.0
         with:
           context: .
           target: cloud-home
@@ -593,10 +592,6 @@ jobs:
           labels: ${{ steps.home-meta.outputs.labels }}
           # The build and runtime layers come from the server's cache; the
           # engine and edge layers from this image's own.
-          cache-from: |
-            type=gha
-            type=gha,scope=cloud-home
-          cache-to: type=gha,scope=cloud-home,mode=max
       - name: Cloud home image digest
         env:
           DIGEST: ${{ steps.home.outputs.digest }}
