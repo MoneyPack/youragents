@@ -20,7 +20,7 @@ concurrency:
 jobs:
   stop:
     name: stop this PR's CI
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     timeout-minutes: 1
     steps:
       - run: echo "PR closed; its CI run (if any) was cancelled."

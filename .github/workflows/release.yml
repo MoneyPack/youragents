@@ -51,14 +51,14 @@ permissions:
 jobs:
   prepare:
     name: Pin the release commit
-    runs-on: ubuntu-24.04
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     timeout-minutes: 5
     outputs:
       sha: ${{ steps.pin.outputs.sha }}
       version: ${{ steps.pin.outputs.version }}
       should_release: ${{ steps.pin.outputs.should_release }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           ref: ${{ inputs.ref || github.sha }}
           persist-credentials: false
@@ -118,7 +118,7 @@ jobs:
     name: CI passed on the release commit
     needs: prepare
     if: needs.prepare.outputs.should_release == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     timeout-minutes: 180
     permissions:
       # read CI runs, start CI in the release lane, and re-run jobs that
@@ -127,7 +127,7 @@ jobs:
       # create and delete the release-ci/v<version> branch
       contents: write
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           persist-credentials: false
           sparse-checkout: |
@@ -149,7 +149,7 @@ jobs:
     name: macOS arm64 + x64 (sign, notarize, staple)
     needs: prepare
     if: needs.prepare.outputs.should_release == 'true'
-    runs-on: macos-15
+    runs-on: blacksmith-6vcpu-macos-15
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -337,7 +337,7 @@ jobs:
     name: Windows x64
     needs: prepare
     if: needs.prepare.outputs.should_release == 'true'
-    runs-on: windows-latest
+    runs-on: blacksmith-4vcpu-windows-2025
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -412,10 +412,10 @@ jobs:
     name: Ubuntu 24.04 x64
     needs: prepare
     if: needs.prepare.outputs.should_release == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           ref: ${{ needs.prepare.outputs.sha }}
           persist-credentials: false
@@ -501,7 +501,7 @@ jobs:
     name: Assemble the draft and verify every feed
     needs: [prepare, ci, mac, windows, linux]
     if: needs.prepare.outputs.should_release == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     timeout-minutes: 30
     concurrency:
       group: release-mirror-v${{ needs.prepare.outputs.version }}
